@@ -12,6 +12,7 @@ exports.up = function(knex) {
                 .notNullable()
             users.string('email', 100)
                 .notNullable()
+                .unique()
         })
         .createTable('listings', listing => {
             listing.increments()

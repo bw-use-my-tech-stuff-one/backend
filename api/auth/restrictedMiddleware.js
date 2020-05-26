@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
       } else {
         // the token is good
         req.jwt = decodedToken
-
+        // console.log(req.jwt) 
         next()
       }
     })

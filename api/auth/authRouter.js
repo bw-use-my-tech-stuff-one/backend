@@ -8,7 +8,7 @@ router.post('/register', (req, res) => {
   // implement registration
   const credentials = req.body
 
-  if (isValid(credentials)) {
+  if (isValidRegister(credentials)) {
     const rounds = process.env.BCRYPT_ROUNDS || 8
 
     // hash the password
@@ -36,7 +36,7 @@ router.post('/login', (req, res) => {
   // implement login
   const { username, password } = req.body
 
-  if (isValid(req.body)) {
+  if (isValidLogin(req.body)) {
     Users.findBy({ username })
       .then(([user]) => {
         // compare the password the hash stored in the database
@@ -74,8 +74,12 @@ function createToken(user) {
   return jwt.sign(payload, secret, options)
 }
 
-function isValid(user) {
+function isValidRegister(user) {
   return Boolean(user.username && user.password && user.type && user.email && typeof user.password === 'string' && typeof user.username === 'string' && typeof user.type === 'string' && typeof user.email === 'string')
+}
+
+function isValidLogin(user) {
+    return Boolean(user.username && user.password && typeof user.password === 'string' && typeof user.username === 'string')
 }
 
 module.exports = router
