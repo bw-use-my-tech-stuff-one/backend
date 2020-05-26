@@ -20,6 +20,11 @@ function getListingById(id){
         .first()
 }
 
+function getTasks(){
+    return db.select('projects.name as project_name', 'projects.description as project_description', 'tasks.description as tasks_description', 'tasks.notes', 'tasks.completed')
+        .from('tasks')
+        .join('projects', 'tasks.project_id', 'projects.id')
+}
 // inserts a new listings record to listings table
 function addListing(newListing){
     return db('listings')
