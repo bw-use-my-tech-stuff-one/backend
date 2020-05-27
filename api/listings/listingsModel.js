@@ -10,21 +10,20 @@ module.exports = {
 
 // gets all listings
 function getListings(){
-    return db('listings')
+    return db.select('listings.id as id', 'listings.name as name', 'listings.description as description', 'listings.exchange_method as exchange_method', 'listings.price_per_day_in_dollars as price_per_day_in_dollars', 'listings.is_currently_available as is_currently_available', 'listings.owner_id as owner_id', 'listings.renter_id as renter_id', 'users.username as owner_name')
+        .from('listings')
+        .join('users', 'listings.owner_id', 'users.id')
 }
 
 // gets listings by id
 function getListingById(id){
-    return db('listings')
-        .where({id})
+    return db.select('listings.id as id', 'listings.name as name', 'listings.description as description', 'listings.exchange_method as exchange_method', 'listings.price_per_day_in_dollars as price_per_day_in_dollars', 'listings.is_currently_available as is_currently_available', 'listings.owner_id as owner_id', 'listings.renter_id as renter_id', 'users.username as owner_name')
+        .from('listings')
+        .join('users', 'listings.owner_id', 'users.id')
+        .where('listings.id', id)
         .first()
 }
 
-function getTasks(){
-    return db.select('projects.name as project_name', 'projects.description as project_description', 'tasks.description as tasks_description', 'tasks.notes', 'tasks.completed')
-        .from('tasks')
-        .join('projects', 'tasks.project_id', 'projects.id')
-}
 // inserts a new listings record to listings table
 function addListing(newListing){
     return db('listings')
