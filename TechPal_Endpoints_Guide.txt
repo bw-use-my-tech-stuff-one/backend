@@ -1,0 +1,189 @@
+Authentication
+
+
+POST - /api/auth/register
+* Request:
+{
+        "username": "newuser3",
+        "password": "newpass3",
+        "type": "renter",
+        "email": "newUser7@gmail.com"
+}
+* Response:
+{
+    "data": {
+        "id": 10,
+        "username": "newuser3",
+        "password": "$2a$08$H/3r8jh7IPm9BSZ2sV.CE.JyIknU6No4KCBG7e2OlGTHrBOLcgku6",
+        "type": "renter",
+        "email": "newUser7@gmail.com"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJ1c2VybmFtZSI6Im5ld3VzZXIzIiwidHlwZSI6InJlbnRlciIsImVtYWlsIjoibmV3VXNlcjdAZ21haWwuY29tIiwiaWF0IjoxNTkwNDkzOTIyLCJleHAiOjE1OTA1ODAzMjJ9.SEdmB7ihQ4HSFni4s5xQ4HN0aUhRrWVKSEXbU1JHFQ8"
+}
+
+
+POST - /api/auth/login
+* Request:
+{
+        "username": "newuser8",
+        "password": "newpass8"
+}
+
+
+* Response:
+{
+    "message": "Welcome to our API newuser8",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJ1c2VybmFtZSI6Im5ld3VzZXI4IiwidHlwZSI6InJlbnRlciIsImVtYWlsIjoibmV3VXNlcjdAZ21haWwuY29tIiwiaWF0IjoxNTkwNDk0Mzc2LCJleHAiOjE1OTA1ODA3NzZ9.4LncJSHLJYAgOD7OBtpqJfwyt6fjsx_57KQdMJHrg2Q"
+}
+
+
+T = Needs Token aka Protected Route
+______________________________________________
+Listings Endpoints
+
+
+T - GET - /api/listings/ - gets all listings that are currently available
+* Response:
+[
+    {
+        "id": 1,
+        "name": "2019 MacBook Pro",
+        "description": "A great computer that will help you achieve your goals.",
+        "exchange_method": "I'll cover the costs of 2-day shipping it to you anywhere in the United States",
+        "price_per_day_in_dollars": 20,
+        "is_currently_available": 1,
+        "owner_id": 3,
+        "renter_id": null,
+        “owner_name”: “blah”
+    },
+    {
+        "id": 2,
+        "name": "Oculus Rift",
+        "description": "A VR headset that you can use to play the ultimate immersive games.",
+        "exchange_method": "I'll cover 7-day shipping, or I can expedite the shipping for an additional cost.",
+        "price_per_day_in_dollars": 15,
+        "is_currently_available": 1,
+        "owner_id": 2,
+        "renter_id": null,
+        “owner_name”: “blah”
+    }
+]
+T - GET - /api/listings/:id - gets an existing listing with specified id (in this case 1)
+* Response:
+
+
+    {
+        "id": 1,
+        "name": "2019 MacBook Pro",
+        "description": "A great computer that will help you achieve your goals.",
+        "exchange_method": "I'll cover the costs of 2-day shipping it to you anywhere in the United States",
+        "price_per_day_in_dollars": 20,
+        "is_currently_available": 1,
+        "owner_id": 3,
+        "renter_id": null
+        “owner_name”: “blah”
+    }
+T - POST - /api/listings - adds a new listing - must be owner
+* Request: 
+{
+    "name": "Oculus Rift",
+    "description": "A VR headset that you can use to play the ultimate immersive games.",
+    "exchange_method": "I'll cover 7-day shipping, or I can expedite the shipping for an additional cost!",
+    "price_per_day_in_dollars": 15,
+    "is_currently_available": true,
+    "owner_id": 4,
+    "renter_id": 8
+}
+* Response:
+{
+    "id": 6,
+    "name": "Oculus Rift",
+    "description": "A VR headset that you can use to play the ultimate immersive games.",
+    "exchange_method": "I'll cover 7-day shipping, or I can expedite the shipping for an additional cost!",
+    "price_per_day_in_dollars": 15,
+    "is_currently_available": 0,
+    "owner_id": 4,
+    "renter_id": 8,
+
+
+}
+
+
+T - PUT - /api/listings/:id - updates an existing listing with a specified id (in this case 6) - must be owner
+* Request: 
+{
+    "name": "Oculus Rift",
+    "description": "A VR headset that you can use to play the ultimate immersive games.",
+    "exchange_method": "I'll cover 7-day shipping, or I can expedite the shipping for an additional cost!",
+    "price_per_day_in_dollars": 20,
+    "is_currently_available": false,
+    "owner_id": 4,
+    "renter_id": 8
+}
+* Response:
+{
+    "id": 6,
+    "name": "Oculus Rift",
+    "description": "A VR headset that you can use to play the ultimate immersive games.",
+    "exchange_method": "I'll cover 7-day shipping, or I can expedite the shipping for an additional cost!",
+    "price_per_day_in_dollars": 20,
+    "is_currently_available": 0,
+    "owner_id": 4,
+    "renter_id": 8,
+    “owner_name”: “blah”
+}
+
+
+T - DELETE - /api/listings/:id - deletes listing with a specified id - must be owner
+* Response:
+{
+    "message": "Listing was deleted"
+}
+
+______________________________________________
+Users Endpoints
+
+
+T - GET - /api/users - gets all users
+* Response:
+[
+    {
+        "id": 1,
+        "username": "user1",
+        "password": "pass1",
+        "type": "owner",
+        "email": "user1@gmail.com"
+    },
+    {
+        "id": 2,
+        "username": "user2",
+        "password": "pass2",
+        "type": "renter",
+        "email": "user2@gmail.com"
+    }
+]
+
+
+T - GET - /api/users/:id - gets an existing user with specified id (in this case 1)
+* Response:
+{
+    "user": {
+        "id": 1,
+        "username": "user1",
+        "password": "pass1",
+        "type": "owner",
+        "email": "user1@gmail.com"
+    },
+    "listings": [
+        {
+            "id": 3,
+            "name": "DJ Sound System",
+            "description": "2 speakers, 4 microphones, and a sound manipulation system that will help make your party a success.",
+            "exchange_method": "We meet up at an agreed location in LA and exchange it in person.",
+            "price_per_day_in_dollars": 200,
+            "is_currently_available": 0,
+            "owner_id": 1,
+            "renter_id": 5
+        }
+    ]
+}
