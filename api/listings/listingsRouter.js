@@ -49,7 +49,7 @@ router.get('/:id', (req, res) => {
 
 // updates listing
 router.put('/:id', (req, res) => {
-    if (req.jwt.type === "owner") {
+    if (req.jwt.type === 'owner') {
         if (req.body.owner_id === req.jwt.sub) {
             Listings.getListingById(req.params.id)
                 .then(listing => {
@@ -73,7 +73,7 @@ router.put('/:id', (req, res) => {
         } else {
             res.status(400).json({ message: 'Users cannot transfer ownership of a listing.'})
         }
-    } else {
+    } else if (req.jwt.type === 'renter') {
         Listings.getListingById(req.params.id)
                 .then(listing => {
                     // only is_currently_available and renter_id should be changed
@@ -108,13 +108,13 @@ router.delete('/:id', (req, res) => {
                 Listings.removeListing(req.params.id)
                     .then(deleted => {
                         if (deleted) {
-                            res.json({ message: 'Listing was deleted' })
+                            res.status(201).json({ message: `Listing with id of ${req.params.id} was deleted` })
                         } else {
                             res.status(500).json({ message: 'Failed to delete Listing' })
                         }
                     })
                     .catch(() => {
-                        res.status(404).json({ message: 'Could not find Listing with given id' })
+                        res.status(404).json({ message: `Could not find Listing with id of ${req.params.id}` })
                     })
             } else {
                 res.status(400).json({ message: 'You must be the owner of the listing to delete it.'})
