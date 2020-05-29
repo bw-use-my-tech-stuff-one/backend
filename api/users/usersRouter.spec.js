@@ -4,9 +4,11 @@ const db = require('../../database/dbConfig')
 const createToken = require('../auth/createToken')
 
 beforeEach(async () => {
+    await db.seed.run()
+})
+afterEach(async () => {
     await db('listings').truncate()
     await db('users').truncate()
-    await db.seed.run()
 })
 
 

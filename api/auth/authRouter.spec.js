@@ -3,8 +3,6 @@ const server = require('../server')
 const db = require('../../database/dbConfig')
 
 beforeEach(async () => {
-    await db('listings').truncate()
-    await db('users').truncate()
     await db.seed.run()
 })
 
