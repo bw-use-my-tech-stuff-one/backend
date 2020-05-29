@@ -33,13 +33,13 @@ exports.up = function(knex) {
                 .references('id')
                 .inTable('users')
                 .onUpdate('CASCADE')
-                .onDelete('RESTRICT') 
+                .onDelete('CASCADE') 
             listing.integer('renter_id')
                 .unsigned()
                 .references('id')
                 .inTable('users')
                 .onUpdate('CASCADE')
-                .onDelete('RESTRICT') 
+                .onDelete('CASCADE') 
         })
 }
 

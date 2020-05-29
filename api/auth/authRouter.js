@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const router = require('express').Router()
 
 const Users = require('./authModel')
+const createToken = require('./createToken')
 
 router.post('/register', (req, res) => {
   // implement registration
@@ -57,22 +58,6 @@ router.post('/login', (req, res) => {
     })
   }
 })
-
-function createToken(user) {
-  const payload = {
-    sub: user.id,
-    username: user.username,
-    type: user.type,
-    email: user.email
-  }
-
-  const secret = process.env.JWT_SECRET || 'keepitsecret,keepitsafe!'
-
-  const options = {
-    expiresIn: '1d'
-  }
-  return jwt.sign(payload, secret, options)
-}
 
 function isValidRegister(user) {
   return Boolean(user.username && user.password && user.type && user.email && typeof user.password === 'string' && typeof user.username === 'string' && typeof user.type === 'string' && typeof user.email === 'string')
