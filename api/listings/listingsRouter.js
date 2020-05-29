@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 // posts a new Listing
 router.post('/', (req, res) => {
-    if (req.body.owner_id === req.jwt.sub && req.body.is_currently_available === true) {
+    if (req.body.owner_id == req.jwt.sub && req.body.is_currently_available === true) {
         Listings.addListing(req.body)
             .then(newListing => {
                 res.status(201).json(newListing)
@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
 
 // get listing by id
 router.get('/:id', (req, res) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     // get listing
     Listings.getListingById(req.params.id)
         .then(listing => {
